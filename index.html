@@ -194,13 +194,22 @@
   async function addClient(){
     const input=document.getElementById('newClientName');
     const nom=input.value.trim();
-    if(!nom){ return; }
-    const {data:{user}}=await sb.auth.getUser();
-    const {error}=await sb.from('clients').insert({nom,coach_id:user.id});
-    if(error){ showMsg('dashMsg',error.message,'err'); return; }
-    input.value='';
-    hideMsg('dashMsg');
-    loadClients();
+    if(!nom){ showMsg('dashMsg','Écris un nom d\'abord.','err'); return; }
+    showMsg('dashMsg','Ajout en cours…','ok');
+    try{
+      const {data:userData,error:userErr}=await sb.auth.getUser();
+      if(userErr){ showMsg('dashMsg','Erreur session : '+userErr.message,'err'); return; }
+      const user=userData?.user;
+      if(!user){ showMsg('dashMsg','Pas connecté — reconnecte-toi.','err'); return; }
+      const {error}=await sb.from('clients').insert({nom,coach_id:user.id});
+      if(error){ showMsg('dashMsg','Erreur insertion : '+error.message,'err'); return; }
+      input.value='';
+      showMsg('dashMsg','Client ajouté !','ok');
+      setTimeout(()=>hideMsg('dashMsg'),2000);
+      loadClients();
+    }catch(e){
+      showMsg('dashMsg','Erreur : '+(e.message||e),'err');
+    }
   }
 
   function copyLink(link){
