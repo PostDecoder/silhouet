@@ -6,76 +6,65 @@
 <title>Silhouet · Espace coach</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#0a0e0c;--panel:#111714;--panel-2:#161e1a;--line:rgba(255,255,255,.08);
-    --txt:#eef2ef;--muted:#8a968f;--lime:#c4ff4d;--lime-dim:#7a9e2e;--teal:#3dd7b0;--red:#ff6b5e;
-  }
+  :root{--bg:#0f1612;--ink:#f3f7f4;--muted:#8a978f;--faint:#5a665f;--lime:#b6ff3c;--teal:#34e0b0;--amber:#ffc24b;--red:#ff7a5c;--card:rgba(255,255,255,.04);--card-bd:rgba(255,255,255,.09);}
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:var(--bg);color:var(--txt);font-family:'Archivo',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5;min-height:100vh;}
-  body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(900px 500px at 80% -10%,rgba(196,255,77,.08),transparent 60%),radial-gradient(700px 600px at -10% 30%,rgba(61,215,176,.06),transparent 55%);}
+  body{background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5;min-height:100vh;}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1100px 600px at 75% -8%,rgba(182,255,60,.10),transparent 55%),radial-gradient(800px 700px at -15% 25%,rgba(52,224,176,.08),transparent 50%);}
   .wrap{max-width:760px;margin:0 auto;padding:0 20px 60px;}
-
-  .topbar{display:flex;align-items:center;justify-content:space-between;padding:26px 0;}
-  .logo{display:flex;align-items:center;gap:10px;}
-  .logo .mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--lime),var(--teal));display:grid;place-items:center;color:#0a0e0c;font-family:'Bricolage Grotesque';font-weight:800;font-size:16px;}
-  .logo b{font-family:'Bricolage Grotesque';font-weight:800;font-size:20px;letter-spacing:-.01em;}
-  #logoutBtn{background:none;border:1px solid var(--line);color:var(--muted);padding:7px 14px;border-radius:9px;font-family:inherit;font-size:13px;cursor:pointer;transition:.18s;}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:28px 0;}
+  .brand{display:flex;align-items:center;gap:11px;}
+  .brand .logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(140deg,var(--lime),var(--teal));display:grid;place-items:center;box-shadow:0 6px 22px rgba(182,255,60,.28);}
+  .brand .logo svg{width:22px;height:22px;}
+  .brand b{font-family:'Sora';font-weight:800;font-size:21px;letter-spacing:-.01em;}
+  #logoutBtn{background:none;border:1px solid var(--card-bd);color:var(--muted);padding:8px 15px;border-radius:30px;font-family:inherit;font-size:13px;cursor:pointer;transition:.18s;}
   #logoutBtn:hover{border-color:var(--red);color:var(--red);}
-
-  .card{background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid var(--line);border-radius:20px;padding:26px;}
-
-  /* auth */
+  .card{background:var(--card);border:1px solid var(--card-bd);border-radius:24px;padding:28px;backdrop-filter:blur(8px);}
   .auth-wrap{max-width:420px;margin:8vh auto 0;}
-  .auth-wrap h1{font-family:'Bricolage Grotesque';font-weight:800;font-size:30px;letter-spacing:-.02em;margin-bottom:6px;text-align:center;}
+  .auth-wrap h1{font-family:'Sora';font-weight:800;font-size:32px;letter-spacing:-.02em;margin-bottom:6px;text-align:center;}
   .auth-wrap .sub{color:var(--muted);font-size:14px;text-align:center;margin-bottom:26px;}
-  .tabs{display:flex;gap:6px;background:rgba(255,255,255,.04);padding:5px;border-radius:12px;margin-bottom:22px;}
-  .tabs button{flex:1;background:none;border:none;color:var(--muted);font-family:inherit;font-size:14px;font-weight:600;padding:9px;border-radius:8px;cursor:pointer;transition:.18s;}
-  .tabs button.active{background:var(--lime);color:#0a0e0c;}
+  .tabs{display:flex;gap:6px;background:rgba(255,255,255,.04);padding:5px;border-radius:30px;margin-bottom:22px;}
+  .tabs button{flex:1;background:none;border:none;color:var(--muted);font-family:inherit;font-size:14px;font-weight:600;padding:10px;border-radius:30px;cursor:pointer;transition:.18s;}
+  .tabs button.active{background:var(--lime);color:#0f1612;}
   label{display:block;font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin:14px 0 7px;font-weight:600;}
-  input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:11px;padding:13px 15px;color:var(--txt);font-family:inherit;font-size:15px;transition:.18s;}
-  input:focus{outline:none;border-color:var(--lime);background:rgba(196,255,77,.04);}
-  .btn{width:100%;margin-top:22px;background:var(--lime);color:#0a0e0c;border:none;border-radius:12px;padding:14px;font-family:'Bricolage Grotesque';font-weight:700;font-size:15px;cursor:pointer;transition:.18s;}
+  input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--card-bd);border-radius:13px;padding:13px 15px;color:var(--ink);font-family:inherit;font-size:15px;transition:.18s;}
+  input:focus{outline:none;border-color:var(--lime);background:rgba(182,255,60,.04);}
+  .btn{width:100%;margin-top:22px;background:var(--lime);color:#0f1612;border:none;border-radius:30px;padding:15px;font-family:'Sora';font-weight:700;font-size:15px;cursor:pointer;transition:.18s;}
   .btn:hover{filter:brightness(1.07);transform:translateY(-1px);}
   .btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-  .msg{margin-top:16px;padding:12px 15px;border-radius:11px;font-size:13.5px;display:none;}
+  .msg{margin-top:16px;padding:12px 15px;border-radius:13px;font-size:13.5px;display:none;}
   .msg.show{display:block;}
-  .msg.err{background:rgba(255,107,94,.12);color:var(--red);border:1px solid rgba(255,107,94,.25);}
-  .msg.ok{background:rgba(61,215,176,.1);color:var(--teal);border:1px solid rgba(61,215,176,.25);}
-
-  /* dashboard */
+  .msg.err{background:rgba(255,122,92,.12);color:var(--red);border:1px solid rgba(255,122,92,.25);}
+  .msg.ok{background:rgba(52,224,176,.1);color:var(--teal);border:1px solid rgba(52,224,176,.25);}
   #dashboard{display:none;}
-  .dash-head{display:flex;align-items:baseline;justify-content:space-between;margin:10px 0 20px;}
-  .dash-head h2{font-family:'Bricolage Grotesque';font-weight:800;font-size:26px;letter-spacing:-.01em;}
+  .dash-head{display:flex;align-items:baseline;justify-content:space-between;margin:14px 0 22px;}
+  .dash-head h2{font-family:'Sora';font-weight:800;font-size:28px;letter-spacing:-.01em;}
   .dash-head span{color:var(--muted);font-size:13px;}
   .add-row{display:flex;gap:10px;margin-bottom:24px;}
   .add-row input{flex:1;margin:0;}
-  .add-row .btn{width:auto;margin:0;padding:13px 22px;white-space:nowrap;}
+  .add-row .btn{width:auto;margin:0;padding:14px 24px;white-space:nowrap;}
   .clients{display:flex;flex-direction:column;gap:11px;}
-  .client{display:flex;align-items:center;gap:14px;background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid var(--line);border-radius:15px;padding:15px 18px;transition:.18s;}
-  .client:hover{border-color:rgba(196,255,77,.3);}
-  .avatar{width:42px;height:42px;border-radius:11px;background:rgba(196,255,77,.12);display:grid;place-items:center;font-family:'Bricolage Grotesque';font-weight:700;color:var(--lime);flex-shrink:0;}
+  .client{display:flex;align-items:center;gap:15px;background:var(--card);border:1px solid var(--card-bd);border-radius:18px;padding:16px 19px;transition:.18s;}
+  .client:hover{border-color:rgba(182,255,60,.3);}
+  .avatar{width:44px;height:44px;border-radius:13px;background:linear-gradient(140deg,rgba(182,255,60,.25),rgba(52,224,176,.15));display:grid;place-items:center;font-family:'Sora';font-weight:700;color:var(--lime);flex-shrink:0;}
   .client .info{flex:1;}
-  .client .info b{font-family:'Bricolage Grotesque';font-weight:700;font-size:16px;}
+  .client .info b{font-family:'Sora';font-weight:700;font-size:16px;}
   .client .info small{display:block;color:var(--muted);font-size:12px;margin-top:1px;}
   .client .actions{display:flex;gap:8px;}
-  .client .actions button{background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--txt);padding:8px 13px;border-radius:9px;font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer;transition:.18s;}
-  .client .actions button:hover{background:rgba(196,255,77,.1);border-color:var(--lime);color:var(--lime);}
+  .client .actions button{background:rgba(255,255,255,.05);border:1px solid var(--card-bd);color:var(--ink);padding:9px 14px;border-radius:30px;font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer;transition:.18s;}
+  .client .actions button:hover{background:rgba(182,255,60,.1);border-color:var(--lime);color:var(--lime);}
   .empty{text-align:center;padding:50px 20px;color:var(--muted);}
-  .empty .big{font-size:38px;margin-bottom:12px;}
+  .empty .big{font-size:40px;margin-bottom:14px;}
   .loading{text-align:center;padding:40px;color:var(--muted);font-size:14px;}
 </style>
 </head>
 <body>
 <div class="wrap">
-
   <div class="topbar">
-    <div class="logo"><div class="mark">S</div><b>Silhouet</b></div>
+    <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" fill="#0f1612"><circle cx="12" cy="4.5" r="3"/><path d="M7 9.5 Q12 7.5 17 9.5 L18 16 Q15 17.5 15 17.5 L15 22 L13 22 L12.5 15 L11.5 15 L11 22 L9 22 L9 17.5 Q6 16.5 6 16 Z"/></svg></div><b>Silhouet</b></div>
     <button id="logoutBtn" style="display:none" onclick="logout()">Déconnexion</button>
   </div>
-
-  <!-- AUTH -->
   <div class="auth-wrap card" id="authBox">
     <h1>Espace coach</h1>
     <p class="sub">Suis la progression de tes clients, fidélise-les.</p>
@@ -90,13 +79,8 @@
     <button class="btn" id="authBtn" onclick="doAuth()">Se connecter</button>
     <div class="msg" id="authMsg"></div>
   </div>
-
-  <!-- DASHBOARD -->
   <div id="dashboard">
-    <div class="dash-head">
-      <h2>Tes clients</h2>
-      <span id="coachEmail"></span>
-    </div>
+    <div class="dash-head"><h2>Tes clients</h2><span id="coachEmail"></span></div>
     <div class="add-row">
       <input type="text" id="newClientName" placeholder="Nom du nouveau client" onkeydown="if(event.key==='Enter')addClient()">
       <button class="btn" onclick="addClient()">+ Ajouter</button>
@@ -104,36 +88,21 @@
     <div class="msg" id="dashMsg"></div>
     <div class="clients" id="clientsList"><div class="loading">Chargement…</div></div>
   </div>
-
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  const SUPABASE_URL = "https://gepplcndfbjohplfdxki.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_FVByYoFLUxfiHTZpAtf5dQ_2k56Hf-7";
-  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-  let mode = 'login';
-
-  function switchTab(m){
-    mode = m;
-    document.getElementById('tabLogin').classList.toggle('active', m==='login');
-    document.getElementById('tabSignup').classList.toggle('active', m==='signup');
-    document.getElementById('authBtn').textContent = m==='login' ? 'Se connecter' : 'Créer mon compte';
-    hideMsg('authMsg');
-  }
-
-  function showMsg(id,text,type){
-    const el=document.getElementById(id);
-    el.textContent=text; el.className='msg show '+type;
-  }
-  function hideMsg(id){ document.getElementById(id).className='msg'; }
-
+  const SUPABASE_URL="https://gepplcndfbjohplfdxki.supabase.co";
+  const SUPABASE_KEY="sb_publishable_FVByYoFLUxfiHTZpAtf5dQ_2k56Hf-7";
+  const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+  let mode='login';
+  function switchTab(m){mode=m;document.getElementById('tabLogin').classList.toggle('active',m==='login');document.getElementById('tabSignup').classList.toggle('active',m==='signup');document.getElementById('authBtn').textContent=m==='login'?'Se connecter':'Créer mon compte';hideMsg('authMsg');}
+  function showMsg(id,text,type){const el=document.getElementById(id);el.textContent=text;el.className='msg show '+type;}
+  function hideMsg(id){document.getElementById(id).className='msg';}
   async function doAuth(){
     const email=document.getElementById('email').value.trim();
     const password=document.getElementById('password').value;
     const btn=document.getElementById('authBtn');
-    if(!email||!password){ showMsg('authMsg','Remplis l\'email et le mot de passe.','err'); return; }
+    if(!email||!password){showMsg('authMsg','Remplis l\'email et le mot de passe.','err');return;}
     btn.disabled=true;
     try{
       if(mode==='signup'){
@@ -147,84 +116,60 @@
         await showDashboard();
       }
     }catch(e){
-      let m = e.message||'Erreur';
-      if(m.includes('Email not confirmed')) m='Confirme d\'abord ton email (lien reçu par mail).';
-      if(m.includes('Invalid login')) m='Email ou mot de passe incorrect.';
+      let m=e.message||'Erreur';
+      if(m.includes('Email not confirmed'))m='Confirme d\'abord ton email (lien reçu par mail).';
+      if(m.includes('Invalid login'))m='Email ou mot de passe incorrect.';
       showMsg('authMsg',m,'err');
-    }finally{ btn.disabled=false; }
+    }finally{btn.disabled=false;}
   }
-
-  async function logout(){
-    await sb.auth.signOut();
-    location.reload();
-  }
-
+  async function logout(){await sb.auth.signOut();location.reload();}
   async function showDashboard(){
     const {data:{user}}=await sb.auth.getUser();
-    if(!user) return;
+    if(!user)return;
     document.getElementById('authBox').style.display='none';
     document.getElementById('dashboard').style.display='block';
     document.getElementById('logoutBtn').style.display='block';
     document.getElementById('coachEmail').textContent=user.email;
     loadClients();
   }
-
   async function loadClients(){
     const list=document.getElementById('clientsList');
     list.innerHTML='<div class="loading">Chargement…</div>';
     const {data,error}=await sb.from('clients').select('*').order('created_at',{ascending:false});
-    if(error){ list.innerHTML='<div class="empty">Erreur de chargement.</div>'; return; }
-    if(!data||data.length===0){
-      list.innerHTML='<div class="empty"><div class="big">🧬</div>Aucun client pour l\'instant.<br>Ajoute ton premier client ci-dessus.</div>';
-      return;
-    }
+    if(error){list.innerHTML='<div class="empty">Erreur de chargement.</div>';return;}
+    if(!data||data.length===0){list.innerHTML='<div class="empty"><div class="big">🧬</div>Aucun client pour l\'instant.<br>Ajoute ton premier client ci-dessus.</div>';return;}
     list.innerHTML=data.map(c=>{
       const initials=c.nom.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
-      const link=`${location.origin}${location.pathname.replace('coach.html','')}fiche.html?c=${c.lien_token}`;
-      return `<div class="client">
-        <div class="avatar">${initials}</div>
+      const link=`${location.origin}${location.pathname.replace('index.html','')}fiche.html?c=${c.lien_token}`;
+      return `<div class="client"><div class="avatar">${initials}</div>
         <div class="info"><b>${escapeHtml(c.nom)}</b><small>Ajouté le ${new Date(c.created_at).toLocaleDateString('fr-FR')}</small></div>
         <div class="actions">
-          <button onclick="copyLink('${link}')">📋 Copier le lien</button>
-        </div>
-      </div>`;
+          <button onclick="location.href='client.html?id=${c.id}'">✏️ Noter</button>
+          <button onclick="copyLink('${link}')">📋 Lien</button>
+        </div></div>`;
     }).join('');
   }
-
   async function addClient(){
     const input=document.getElementById('newClientName');
     const nom=input.value.trim();
-    if(!nom){ showMsg('dashMsg','Écris un nom d\'abord.','err'); return; }
+    if(!nom){showMsg('dashMsg','Écris un nom d\'abord.','err');return;}
     showMsg('dashMsg','Ajout en cours…','ok');
     try{
       const {data:userData,error:userErr}=await sb.auth.getUser();
-      if(userErr){ showMsg('dashMsg','Erreur session : '+userErr.message,'err'); return; }
+      if(userErr){showMsg('dashMsg','Erreur session : '+userErr.message,'err');return;}
       const user=userData?.user;
-      if(!user){ showMsg('dashMsg','Pas connecté — reconnecte-toi.','err'); return; }
+      if(!user){showMsg('dashMsg','Pas connecté — reconnecte-toi.','err');return;}
       const {error}=await sb.from('clients').insert({nom,coach_id:user.id});
-      if(error){ showMsg('dashMsg','Erreur insertion : '+error.message,'err'); return; }
+      if(error){showMsg('dashMsg','Erreur : '+error.message,'err');return;}
       input.value='';
       showMsg('dashMsg','Client ajouté !','ok');
       setTimeout(()=>hideMsg('dashMsg'),2000);
       loadClients();
-    }catch(e){
-      showMsg('dashMsg','Erreur : '+(e.message||e),'err');
-    }
+    }catch(e){showMsg('dashMsg','Erreur : '+(e.message||e),'err');}
   }
-
-  function copyLink(link){
-    navigator.clipboard.writeText(link);
-    showMsg('dashMsg','Lien copié ! Envoie-le à ton client par WhatsApp.','ok');
-    setTimeout(()=>hideMsg('dashMsg'),3000);
-  }
-
+  function copyLink(link){navigator.clipboard.writeText(link);showMsg('dashMsg','Lien copié ! Envoie-le à ton client par WhatsApp.','ok');setTimeout(()=>hideMsg('dashMsg'),3000);}
   function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
-
-  // au chargement : déjà connecté ?
-  (async()=>{
-    const {data:{session}}=await sb.auth.getSession();
-    if(session) showDashboard();
-  })();
+  (async()=>{const {data:{session}}=await sb.auth.getSession();if(session)showDashboard();})();
 </script>
 </body>
 </html>
