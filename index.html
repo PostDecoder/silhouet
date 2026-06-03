@@ -3,180 +3,231 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Silhouet · Espace coach</title>
+<title>Silhouet · Le suivi qui fidélise tes clients</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#0f1612;--ink:#f3f7f4;--muted:#8a978f;--faint:#5a665f;--lime:#b6ff3c;--teal:#34e0b0;--amber:#ffc24b;--red:#ff7a5c;--card:rgba(255,255,255,.04);--card-bd:rgba(255,255,255,.09);}
+  :root{--bg:#0f1612;--ink:#f3f7f4;--muted:#8a978f;--faint:#5a665f;--mint:#00e5a0;--mint2:#5dffc4;--lime:#b6ff3c;--card:rgba(255,255,255,.04);--card-bd:rgba(255,255,255,.09);}
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5;min-height:100vh;}
-  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1100px 600px at 75% -8%,rgba(182,255,60,.10),transparent 55%),radial-gradient(800px 700px at -15% 25%,rgba(52,224,176,.08),transparent 50%);}
-  .wrap{max-width:760px;margin:0 auto;padding:0 20px 60px;}
-  .topbar{display:flex;align-items:center;justify-content:space-between;padding:28px 0;}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden;}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 700px at 78% -10%,rgba(0,229,160,.12),transparent 55%),radial-gradient(900px 800px at -15% 30%,rgba(182,255,60,.06),transparent 50%);}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+
+  /* nav */
+  nav{display:flex;align-items:center;justify-content:space-between;padding:26px 0;}
   .brand{display:flex;align-items:center;gap:11px;}
-  .brand .logo{width:42px;height:42px;border-radius:13px;background:#161a20;border:1px solid #2a3038;display:grid;place-items:center;box-shadow:0 6px 22px rgba(182,255,60,.28);}
-  .brand .logo svg{width:22px;height:22px;}
+  .brand .logo{width:40px;height:40px;border-radius:12px;background:#161a20;border:1px solid #2a3038;display:grid;place-items:center;}
+  .brand .logo svg{width:24px;height:24px;}
   .brand b{font-family:'Sora';font-weight:800;font-size:21px;letter-spacing:-.01em;}
-  #logoutBtn{background:none;border:1px solid var(--card-bd);color:var(--muted);padding:8px 15px;border-radius:30px;font-family:inherit;font-size:13px;cursor:pointer;transition:.18s;}
-  #logoutBtn:hover{border-color:var(--red);color:var(--red);}
-  .card{background:var(--card);border:1px solid var(--card-bd);border-radius:24px;padding:28px;backdrop-filter:blur(8px);}
-  .auth-wrap{max-width:420px;margin:8vh auto 0;}
-  .auth-wrap h1{font-family:'Sora';font-weight:800;font-size:32px;letter-spacing:-.02em;margin-bottom:6px;text-align:center;}
-  .auth-wrap .sub{color:var(--muted);font-size:14px;text-align:center;margin-bottom:26px;}
-  .tabs{display:flex;gap:6px;background:rgba(255,255,255,.04);padding:5px;border-radius:30px;margin-bottom:22px;}
-  .tabs button{flex:1;background:none;border:none;color:var(--muted);font-family:inherit;font-size:14px;font-weight:600;padding:10px;border-radius:30px;cursor:pointer;transition:.18s;}
-  .tabs button.active{background:var(--lime);color:#0f1612;}
-  label{display:block;font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin:14px 0 7px;font-weight:600;}
-  input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--card-bd);border-radius:13px;padding:13px 15px;color:var(--ink);font-family:inherit;font-size:15px;transition:.18s;}
-  input:focus{outline:none;border-color:var(--lime);background:rgba(182,255,60,.04);}
-  .btn{width:100%;margin-top:22px;background:var(--lime);color:#0f1612;border:none;border-radius:30px;padding:15px;font-family:'Sora';font-weight:700;font-size:15px;cursor:pointer;transition:.18s;}
-  .btn:hover{filter:brightness(1.07);transform:translateY(-1px);}
-  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-  .msg{margin-top:16px;padding:12px 15px;border-radius:13px;font-size:13.5px;display:none;}
-  .msg.show{display:block;}
-  .msg.err{background:rgba(255,122,92,.12);color:var(--red);border:1px solid rgba(255,122,92,.25);}
-  .msg.ok{background:rgba(52,224,176,.1);color:var(--teal);border:1px solid rgba(52,224,176,.25);}
-  #dashboard{display:none;}
-  .dash-head{display:flex;align-items:baseline;justify-content:space-between;margin:14px 0 22px;}
-  .dash-head h2{font-family:'Sora';font-weight:800;font-size:28px;letter-spacing:-.01em;}
-  .dash-head span{color:var(--muted);font-size:13px;}
-  .add-row{display:flex;gap:10px;margin-bottom:24px;}
-  .add-row input{flex:1;margin:0;}
-  .add-row .btn{width:auto;margin:0;padding:14px 24px;white-space:nowrap;}
-  .clients{display:flex;flex-direction:column;gap:11px;}
-  .client{display:flex;align-items:center;gap:15px;background:var(--card);border:1px solid var(--card-bd);border-radius:18px;padding:16px 19px;transition:.18s;}
-  .client:hover{border-color:rgba(182,255,60,.3);}
-  .avatar{width:44px;height:44px;border-radius:13px;background:linear-gradient(140deg,rgba(182,255,60,.25),rgba(52,224,176,.15));display:grid;place-items:center;font-family:'Sora';font-weight:700;color:var(--lime);flex-shrink:0;}
-  .client .info{flex:1;}
-  .client .info b{font-family:'Sora';font-weight:700;font-size:16px;}
-  .client .info small{display:block;color:var(--muted);font-size:12px;margin-top:1px;}
-  .client .actions{display:flex;gap:8px;}
-  .client .actions button{background:rgba(255,255,255,.05);border:1px solid var(--card-bd);color:var(--ink);padding:9px 14px;border-radius:30px;font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer;transition:.18s;}
-  .client .actions button:hover{background:rgba(182,255,60,.1);border-color:var(--lime);color:var(--lime);}
-  .empty{text-align:center;padding:50px 20px;color:var(--muted);}
-  .empty .big{font-size:40px;margin-bottom:14px;}
-  .loading{text-align:center;padding:40px;color:var(--muted);font-size:14px;}
+  .nav-cta{background:var(--mint);color:#0f1612;text-decoration:none;font-family:'Sora';font-weight:700;font-size:14px;padding:11px 20px;border-radius:30px;transition:.18s;}
+  .nav-cta:hover{filter:brightness(1.08);}
+
+  /* hero */
+  .hero{padding:70px 0 60px;display:grid;grid-template-columns:1.1fr .9fr;gap:50px;align-items:center;}
+  .hero .tag{display:inline-block;color:var(--mint);background:rgba(0,229,160,.1);border:1px solid rgba(0,229,160,.25);font-size:13px;font-weight:600;letter-spacing:.04em;padding:7px 15px;border-radius:30px;margin-bottom:24px;}
+  .hero h1{font-family:'Sora';font-weight:800;font-size:62px;line-height:1.02;letter-spacing:-.03em;margin-bottom:22px;}
+  .hero h1 .hl{background:linear-gradient(120deg,var(--mint2),var(--mint));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .hero p{font-size:19px;color:var(--muted);margin-bottom:34px;max-width:520px;}
+  .cta-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap;}
+  .btn-primary{display:inline-block;background:var(--mint);color:#0f1612;text-decoration:none;font-family:'Sora';font-weight:700;font-size:17px;padding:16px 30px;border-radius:30px;transition:.18s;box-shadow:0 8px 30px rgba(0,229,160,.25);white-space:nowrap;max-width:100%;}
+  .btn-primary:hover{transform:translateY(-2px);filter:brightness(1.08);}
+  .cta-note{color:var(--faint);font-size:14px;}
+
+  /* hero visual : mini fiche */
+  .hero-visual{background:linear-gradient(180deg,var(--card),rgba(255,255,255,.01));border:1px solid var(--card-bd);border-radius:26px;padding:24px;backdrop-filter:blur(8px);}
+  .hv-top{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+  .hv-av{width:38px;height:38px;border-radius:11px;background:linear-gradient(140deg,rgba(0,229,160,.3),rgba(182,255,60,.15));display:grid;place-items:center;font-family:'Sora';font-weight:700;color:var(--mint);font-size:15px;}
+  .hv-top b{font-family:'Sora';font-size:15px;}
+  .hv-top small{display:block;color:var(--faint);font-size:11px;}
+  .hv-ring{display:flex;align-items:center;gap:16px;background:rgba(0,229,160,.06);border:1px solid rgba(0,229,160,.18);border-radius:16px;padding:16px;margin-bottom:14px;}
+  .hv-score{font-family:'Sora';font-weight:800;font-size:34px;color:var(--mint);}
+  .hv-score span{font-size:15px;color:var(--muted);}
+  .hv-bars{display:flex;flex-direction:column;gap:10px;}
+  .hv-bar{}
+  .hv-bar .l{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:5px;}
+  .hv-bar .t{height:7px;background:rgba(255,255,255,.06);border-radius:7px;overflow:hidden;}
+  .hv-bar .t i{display:block;height:100%;border-radius:7px;background:linear-gradient(90deg,#1a8f6f,var(--mint));}
+
+
+  .hv-body{display:flex;gap:14px;align-items:center;}
+  .hv-body .silh{width:46%;max-width:150px;height:auto;}
+  .rg{fill:#28342c;stroke:#3a4a40;stroke-width:1;transition:fill .4s,opacity .4s,filter .4s;}
+  .rg.lit{filter:drop-shadow(0 0 7px currentColor);}
+  .hv-side{flex:1;}
+  .hv-score{font-family:'Sora';font-weight:800;font-size:36px;color:var(--mint);line-height:1;}
+  .hv-score span{font-size:15px;color:var(--muted);}
+  .hv-delta{color:var(--mint);font-size:13px;font-weight:600;margin:4px 0 14px;}
+  .hv-tags{display:flex;flex-direction:column;gap:7px;}
+  .hv-tag{background:rgba(255,255,255,.04);border:1px solid var(--card-bd);border-radius:10px;padding:8px 12px;font-size:13px;color:var(--muted);display:flex;justify-content:space-between;transition:.3s;}
+  .hv-tag.on{border-color:rgba(0,229,160,.4);background:rgba(0,229,160,.08);color:var(--ink);}
+  .hv-tag b{font-family:'Sora';color:var(--ink);}
+
+  /* sections */
+  section{padding:70px 0;}
+  .sec-tag{color:var(--mint);font-family:'Sora';font-weight:600;font-size:14px;letter-spacing:.08em;text-transform:uppercase;text-align:center;margin-bottom:14px;}
+  .sec-title{font-family:'Sora';font-weight:800;font-size:42px;letter-spacing:-.02em;text-align:center;margin-bottom:16px;line-height:1.1;}
+  .sec-sub{color:var(--muted);font-size:18px;text-align:center;max-width:600px;margin:0 auto 50px;}
+
+  /* problem */
+  .problem{background:var(--card);border:1px solid var(--card-bd);border-radius:28px;padding:50px;text-align:center;}
+  .problem h2{font-family:'Sora';font-weight:800;font-size:38px;letter-spacing:-.02em;line-height:1.15;max-width:760px;margin:0 auto;}
+  .problem h2 .red{color:#ff6b5e;}
+  .problem h2 .mint{color:var(--mint);}
+
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .step{background:var(--card);border:1px solid var(--card-bd);border-radius:22px;padding:32px 26px;}
+  .step .num{width:44px;height:44px;border-radius:13px;background:rgba(0,229,160,.12);color:var(--mint);font-family:'Sora';font-weight:800;font-size:20px;display:grid;place-items:center;margin-bottom:20px;}
+  .step h3{font-family:'Sora';font-weight:700;font-size:20px;margin-bottom:10px;}
+  .step p{color:var(--muted);font-size:15px;}
+
+  /* features */
+  .features{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+  .feat{background:var(--card);border:1px solid var(--card-bd);border-radius:20px;padding:28px;display:flex;gap:18px;align-items:flex-start;}
+  .feat .ic{width:46px;height:46px;border-radius:13px;background:rgba(0,229,160,.1);display:grid;place-items:center;flex-shrink:0;font-size:22px;}
+  .feat h3{font-family:'Sora';font-weight:700;font-size:18px;margin-bottom:6px;}
+  .feat p{color:var(--muted);font-size:14.5px;}
+
+  /* final cta */
+  .final{background:linear-gradient(150deg,rgba(0,229,160,.12),rgba(182,255,60,.04));border:1px solid rgba(0,229,160,.25);border-radius:28px;padding:60px 40px;text-align:center;}
+  .final h2{font-family:'Sora';font-weight:800;font-size:44px;letter-spacing:-.02em;margin-bottom:16px;}
+  .final p{color:var(--muted);font-size:18px;margin-bottom:32px;}
+
+  footer{padding:40px 0;text-align:center;color:var(--faint);font-size:14px;border-top:1px solid var(--card-bd);margin-top:40px;}
+
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr;gap:40px;}
+    .hero h1{font-size:46px;}
+    .steps{grid-template-columns:1fr;}
+    .features{grid-template-columns:1fr;}
+    .sec-title{font-size:32px;}
+    .problem{padding:34px 24px;}
+    .problem h2{font-size:28px;}
+    .final h2{font-size:32px;}
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="topbar">
-    <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#00e5a0" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="5" r="2.2" fill="#00e5a0" stroke="none"/><path d="M6 11 L18 11 M4 9.5 L4 12.5 M20 9.5 L20 12.5 M12 11 L12 17 M9 21 L12 17 L15 21"/></svg></div><b>Silhouet</b></div>
-    <button id="logoutBtn" style="display:none" onclick="logout()">Déconnexion</button>
-  </div>
-  <div class="auth-wrap card" id="authBox">
-    <h1>Espace coach</h1>
-    <p class="sub">Suis la progression de tes clients, fidélise-les.</p>
-    <div class="tabs">
-      <button id="tabLogin" class="active" onclick="switchTab('login')">Connexion</button>
-      <button id="tabSignup" onclick="switchTab('signup')">Créer un compte</button>
+
+  <nav>
+    <div class="brand">
+      <div class="logo"><svg viewBox="0 0 24 24" stroke="#00e5a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><line x1="9" y1="11" x2="6.5" y2="6"/><line x1="15" y1="11" x2="17.5" y2="6"/><path d="M9 11 L15 11 M12 11 L12 17 M12 17 L8.5 22 M12 17 L15.5 22"/><circle cx="12" cy="8.5" r="1.8" fill="#00e5a0" stroke="none"/></svg></div>
+      <b>Silhouet</b>
     </div>
-    <label>Email</label>
-    <input type="email" id="email" placeholder="toncoach@email.com" autocomplete="email">
-    <label>Mot de passe</label>
-    <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
-    <button class="btn" id="authBtn" onclick="doAuth()">Se connecter</button>
-    <div class="msg" id="authMsg"></div>
-  </div>
-  <div id="dashboard">
-    <div id="subBanner" style="background:linear-gradient(150deg,rgba(182,255,60,.12),rgba(52,224,176,.04));border:1px solid rgba(182,255,60,.25);border-radius:18px;padding:18px 22px;margin:10px 0 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
-      <div>
-        <div style="font-family:'Sora';font-weight:700;font-size:15px;">Passe à Silhouet Pro</div>
-        <div style="color:var(--muted);font-size:13px;margin-top:3px;">Suivi illimité de tes clients · 29,99€/mois</div>
+    <a href="app.html" class="nav-cta">Connexion</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <span class="tag">Pour les coachs sportifs</span>
+      <h1>Tes clients voient enfin <span class="hl">qu'ils progressent.</span></h1>
+      <p>Après chaque séance, ton client reçoit un lien où il voit son corps évoluer, semaine après semaine. Il voit ses résultats → il reste motivé → il ne lâche plus.</p>
+      <div class="cta-row">
+        <a href="app.html" class="btn-primary">Essayer gratuitement →</a>
+        <span class="cta-note">14 jours gratuits · sans carte</span>
       </div>
-      <a href="https://buy.stripe.com/test_14A5kv5764Oz5ij3xDbZe00" target="_blank" style="background:var(--lime);color:#0f1612;text-decoration:none;font-family:'Sora';font-weight:700;font-size:14px;padding:12px 22px;border-radius:30px;white-space:nowrap;">S'abonner →</a>
     </div>
-    <div class="dash-head"><h2>Tes clients</h2><span id="coachEmail"></span></div>
-    <div class="add-row">
-      <input type="text" id="newClientName" placeholder="Nom du nouveau client" onkeydown="if(event.key==='Enter')addClient()">
-      <button class="btn" onclick="addClient()">+ Ajouter</button>
+    <div class="hero-visual">
+      <div class="hv-top">
+        <div class="hv-av">LM</div>
+        <div><b>Lucas M.</b><small>9e semaine · suivi actif</small></div>
+      </div>
+      <div class="hv-body">
+        <svg viewBox="0 0 100 250" xmlns="http://www.w3.org/2000/svg" class="silh">
+          <circle class="rg" data-z="energie" cx="50" cy="20" r="13"/>
+          <rect class="rg" data-z="bras" x="14" y="44" width="15" height="70" rx="7"/>
+          <rect class="rg" data-z="bras" x="71" y="44" width="15" height="70" rx="7"/>
+          <path class="rg" data-z="tronc" d="M32 42 L68 42 Q72 44 71 52 L69 116 Q50 124 31 116 L29 52 Q28 44 32 42 Z"/>
+          <path class="rg" data-z="jambes" d="M33 120 Q41 124 49 122 L48 180 L36 180 Z"/>
+          <path class="rg" data-z="jambes" d="M67 120 Q59 124 51 122 L52 180 L64 180 Z"/>
+          <rect class="rg" data-z="mollets" x="36" y="184" width="12" height="56" rx="6"/>
+          <rect class="rg" data-z="mollets" x="52" y="184" width="12" height="56" rx="6"/>
+        </svg>
+        <div class="hv-side">
+          <div class="hv-score">74<span>/100</span></div>
+          <div class="hv-delta">▲ +21 pts</div>
+          <div class="hv-tags">
+            <div class="hv-tag" data-z="jambes">Jambes <b>8</b></div>
+            <div class="hv-tag" data-z="tronc">Tronc <b>7</b></div>
+            <div class="hv-tag" data-z="bras">Bras <b>6</b></div>
+            <div class="hv-tag" data-z="mollets">Cardio <b>7</b></div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="msg" id="dashMsg"></div>
-    <div class="clients" id="clientsList"><div class="loading">Chargement…</div></div>
   </div>
+
+  <!-- PROBLEM -->
+  <section>
+    <div class="problem">
+      <h2>La plupart des clients n'arrêtent pas par manque de résultats.<br>Ils arrêtent parce qu'ils ne <span class="red">voient pas</span> leurs résultats. <span class="mint">Silhouet leur montre.</span></h2>
+    </div>
+  </section>
+
+  <!-- STEPS -->
+  <section>
+    <div class="sec-tag">Comment ça marche</div>
+    <h2 class="sec-title">Trois étapes. Vingt secondes.</h2>
+    <p class="sec-sub">Aucune complexité. Tu notes, ton client voit, ton client reste.</p>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><h3>Tu notes la séance</h3><p>Après chaque séance, tu ajustes les critères de ton client en 20 secondes : force, cardio, énergie… ce que tu veux suivre.</p></div>
+      <div class="step"><div class="num">2</div><h3>Ton client reçoit un lien</h3><p>Tu lui envoies son lien personnel (par WhatsApp, message…). Pas d'appli à installer, il clique et c'est tout.</p></div>
+      <div class="step"><div class="num">3</div><h3>Il voit sa progression</h3><p>Il découvre son corps qui évolue, son score qui monte, semaine après semaine. Il voit qu'il avance → il continue.</p></div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section>
+    <div class="sec-tag">Fonctionnalités</div>
+    <h2 class="sec-title">Pensé pour fidéliser.</h2>
+    <p class="sec-sub">Tout ce qu'il faut pour que tes clients restent, et que tu paraisses au top.</p>
+    <div class="features">
+      <div class="feat"><div class="ic">🧍</div><div><h3>Carte corporelle interactive</h3><p>Une silhouette face et dos où chaque zone s'allume selon les progrès. Visuel, parlant, motivant.</p></div></div>
+      <div class="feat"><div class="ic">📈</div><div><h3>Progression dans le temps</h3><p>Chaque critère suivi montre l'évolution depuis le début. Ton client voit le chemin parcouru.</p></div></div>
+      <div class="feat"><div class="ic">⚡</div><div><h3>20 secondes par séance</h3><p>Tu ajustes des curseurs, c'est tout. Zéro paperasse, zéro temps perdu.</p></div></div>
+      <div class="feat"><div class="ic">🔗</div><div><h3>Un simple lien, zéro friction</h3><p>Ton client n'installe rien, ne crée pas de compte. Il ouvre le lien, il voit sa fiche.</p></div></div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section>
+    <div class="final">
+      <h2>Garde tes clients plus longtemps.</h2>
+      <p>Essaie Silhouet gratuitement pendant 14 jours. Sans carte bancaire.</p>
+      <a href="app.html" class="btn-primary">Créer mon compte →</a>
+    </div>
+  </section>
+
+  <footer>
+    Silhouet · Le suivi client pour les coachs sportifs
+  </footer>
+
 </div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-  const SUPABASE_URL="https://gepplcndfbjohplfdxki.supabase.co";
-  const SUPABASE_KEY="sb_publishable_FVByYoFLUxfiHTZpAtf5dQ_2k56Hf-7";
-  const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-  let mode='login';
-  function switchTab(m){mode=m;document.getElementById('tabLogin').classList.toggle('active',m==='login');document.getElementById('tabSignup').classList.toggle('active',m==='signup');document.getElementById('authBtn').textContent=m==='login'?'Se connecter':'Créer mon compte';hideMsg('authMsg');}
-  function showMsg(id,text,type){const el=document.getElementById(id);el.textContent=text;el.className='msg show '+type;}
-  function hideMsg(id){document.getElementById(id).className='msg';}
-  async function doAuth(){
-    const email=document.getElementById('email').value.trim();
-    const password=document.getElementById('password').value;
-    const btn=document.getElementById('authBtn');
-    if(!email||!password){showMsg('authMsg','Remplis l\'email et le mot de passe.','err');return;}
-    btn.disabled=true;
-    try{
-      if(mode==='signup'){
-        const {error}=await sb.auth.signUp({email,password});
-        if(error) throw error;
-        showMsg('authMsg','Compte créé ! Vérifie ta boîte mail pour confirmer, puis connecte-toi.','ok');
-        switchTab('login');
-      }else{
-        const {error}=await sb.auth.signInWithPassword({email,password});
-        if(error) throw error;
-        await showDashboard();
-      }
-    }catch(e){
-      let m=e.message||'Erreur';
-      if(m.includes('Email not confirmed'))m='Confirme d\'abord ton email (lien reçu par mail).';
-      if(m.includes('Invalid login'))m='Email ou mot de passe incorrect.';
-      showMsg('authMsg',m,'err');
-    }finally{btn.disabled=false;}
+  const COLORS={jambes:'#b6ff3c',tronc:'#00e5a0',bras:'#ffc24b',mollets:'#5dffc4',energie:'#00e5a0'};
+  const zones=['jambes','tronc','bras','mollets'];
+  const regions=document.querySelectorAll('.rg');
+  const tags=document.querySelectorAll('.hv-tag');
+  let idx=0;
+  function light(z){
+    const c=COLORS[z]||'#00e5a0';
+    regions.forEach(r=>{
+      const m=r.dataset.z===z;
+      if(m){r.style.fill=c;r.style.color=c;r.classList.add('lit');r.style.opacity='1';}
+      else{r.style.fill='';r.classList.remove('lit');r.style.opacity='.25';}
+    });
+    tags.forEach(t=>t.classList.toggle('on',t.dataset.z===z));
   }
-  async function logout(){await sb.auth.signOut();location.reload();}
-  async function showDashboard(){
-    const {data:{user}}=await sb.auth.getUser();
-    if(!user)return;
-    document.getElementById('authBox').style.display='none';
-    document.getElementById('dashboard').style.display='block';
-    document.getElementById('logoutBtn').style.display='block';
-    document.getElementById('coachEmail').textContent=user.email;
-    loadClients();
-  }
-  async function loadClients(){
-    const list=document.getElementById('clientsList');
-    list.innerHTML='<div class="loading">Chargement…</div>';
-    const {data,error}=await sb.from('clients').select('*').order('created_at',{ascending:false});
-    if(error){list.innerHTML='<div class="empty">Erreur de chargement.</div>';return;}
-    if(!data||data.length===0){list.innerHTML='<div class="empty"><div class="big">🧬</div>Aucun client pour l\'instant.<br>Ajoute ton premier client ci-dessus.</div>';return;}
-    list.innerHTML=data.map(c=>{
-      const initials=c.nom.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
-      const link=`${location.origin}${location.pathname.replace('index.html','')}fiche.html?c=${c.lien_token}`;
-      return `<div class="client"><div class="avatar">${initials}</div>
-        <div class="info"><b>${escapeHtml(c.nom)}</b><small>Ajouté le ${new Date(c.created_at).toLocaleDateString('fr-FR')}</small></div>
-        <div class="actions">
-          <button onclick="location.href='client.html?id=${c.id}'">✏️ Noter</button>
-          <button onclick="copyLink('${link}')">📋 Lien</button>
-        </div></div>`;
-    }).join('');
-  }
-  async function addClient(){
-    const input=document.getElementById('newClientName');
-    const nom=input.value.trim();
-    if(!nom){showMsg('dashMsg','Écris un nom d\'abord.','err');return;}
-    showMsg('dashMsg','Ajout en cours…','ok');
-    try{
-      const {data:userData,error:userErr}=await sb.auth.getUser();
-      if(userErr){showMsg('dashMsg','Erreur session : '+userErr.message,'err');return;}
-      const user=userData?.user;
-      if(!user){showMsg('dashMsg','Pas connecté — reconnecte-toi.','err');return;}
-      const {error}=await sb.from('clients').insert({nom,coach_id:user.id});
-      if(error){showMsg('dashMsg','Erreur : '+error.message,'err');return;}
-      input.value='';
-      showMsg('dashMsg','Client ajouté !','ok');
-      setTimeout(()=>hideMsg('dashMsg'),2000);
-      loadClients();
-    }catch(e){showMsg('dashMsg','Erreur : '+(e.message||e),'err');}
-  }
-  function copyLink(link){navigator.clipboard.writeText(link);showMsg('dashMsg','Lien copié ! Envoie-le à ton client par WhatsApp.','ok');setTimeout(()=>hideMsg('dashMsg'),3000);}
-  function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
-  (async()=>{const {data:{session}}=await sb.auth.getSession();if(session)showDashboard();})();
+  // animation auto en boucle
+  light(zones[0]);
+  setInterval(()=>{idx=(idx+1)%zones.length;light(zones[idx]);},1600);
+  // interaction au survol des tags
+  tags.forEach(t=>t.addEventListener('mouseenter',()=>light(t.dataset.z)));
 </script>
 </body>
 </html>
