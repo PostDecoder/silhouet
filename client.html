@@ -152,6 +152,104 @@
 <body>
 <div class="wrap">
   <div class="topbar">
+    <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#00e5a0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19 L12 5 M6 11 L12 5 L18 11"/></svg></div><b>Silhouet</b></div>
+    <a class="back" href="app.html">← Mes clients</a>
+  </div>
+  <div id="gate" class="gate">Vérification…</div>
+  <div id="app" style="display:none">
+    <div class="pick"><label>Client</label><select id="clientSelect" onchange="onClientChange()"><option>Chargement…</option></select></div>
+    <div class="panel">
+      <h3>Notes de la séance</h3>
+      <p class="hint">Glisse chaque critère selon la forme du jour. Tu peux renommer un critère ou en ajouter.</p>
+      <div id="criteria"></div>
+      <button class="add-crit" onclick="addCriterion()">+ Ajouter un critère</button>
+    </div>
+    <div class="panel">
+      <h3>Mot pour le client</h3>
+      <p class="hint">Optionnel — un encouragement qui s'affiche sur sa fiche.</p>
+      <textarea id="note" placeholder="Gros mois, tes jambes ont vraiment progressé…"></textarea>
+    </div>
+    <button class="save" id="saveBtn" onclick="saveSession()">Enregistrer la séance</button>
+    <div class="msg" id="msg"></div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL="https://gepplcndfbjohplfdxki.supabase.co";
+  const SUPABASE_KEY="sb_publishable_FVByYoFLUxfiHTZpAtf5dQ_2k56Hf-7";
+  const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+  const DEFAULT_CRIT=[["Jambes · quadriceps",7],["Tronc · abdos / obliques",6],["Dos · dorsaux",6],["Bras · biceps / triceps",6],["Cardio · endurance",7]];
+  function renderCrit(name,val){
+    const div=document.createElement('div');
+    div.className='crit';
+    div.innerHTML=`<div class="head"><span class="nm"><input type="text" value="${name.replace(/"/g,'&quot;')}"></span><span class="score">${val}/10</span></div>
+      <input type="range" min="0" max="10" step="1" value="${val}" oninput="this.closest('.crit').querySelector('.score').textContent=this.value+'/10'">
+      <div style="text-align:right;margin-top:6px"><button class="del-crit" onclick="this.closest('.crit').remove()">supprimer</button></div>`;
+    document.getElementById('criteria').appendChild(div);
+  }
+  function addCriterion(){renderCrit("Nouveau critère",5);}
+  function loadDefaultCriteria(){document.getElementById('criteria').innerHTML='';DEFAULT_CRIT.forEach(([n,v])=>renderCrit(n,v));}
+  function collectCriteria(){const obj={};document.querySelectorAll('#criteria .crit').forEach(c=>{const name=c.querySelector('.nm input').value.trim();const val=parseInt(c.querySelector('input[type=range]').value,10);if(name)obj[name]=val;});return obj;}
+  async function loadClients(){
+    const sel=document.getElementById('clientSelect');
+    const {data,error}=await sb.from('clients').select('id,nom').order('nom');
+    if(error||!data||!data.length){sel.innerHTML='<option value="">Aucun client — ajoute-en un d\'abord</option>';return;}
+    sel.innerHTML=data.map(c=>`<option value="${c.id}">${c.nom}</option>`).join('');
+    const preId=new URLSearchParams(location.search).get('id');
+    if(preId&&data.some(c=>c.id===preId))sel.value=preId;
+    onClientChange();
+  }
+  async function onClientChange(){
+    const clientId=document.getElementById('clientSelect').value;
+    if(!clientId){loadDefaultCriteria();return;}
+    const {data}=await sb.from('evaluations').select('criteres').eq('client_id',clientId).order('created_at',{ascending:false}).limit(1);
+    document.getElementById('criteria').innerHTML='';
+    if(data&&data.length&&data[0].criteres&&Object.keys(data[0].criteres).length){Object.entries(data[0].criteres).forEach(([n,v])=>renderCrit(n,v));}
+    else{loadDefaultCriteria();}
+  }
+  async function saveSession(){
+    const clientId=document.getElementById('clientSelect').value;
+    if(!clientId){showMsg('Sélectionne un client.','err');return;}
+    const criteres=collectCriteria();
+    if(Object.keys(criteres).length===0){showMsg('Ajoute au moins un critère.','err');return;}
+    const note=document.getElementById('note').value.trim();
+    const btn=document.getElementById('saveBtn');btn.disabled=true;
+    const {error}=await sb.from('evaluations').insert({client_id:clientId,criteres,note_seance:note});
+    btn.disabled=false;
+    if(error){showMsg(error.message,'err');return;}
+    showMsg('Séance enregistrée ! La fiche du client est à jour.','ok');
+    document.getElementById('note').value='';
+  }
+  function showMsg(t,type){const m=document.getElementById('msg');m.textContent=t;m.className='msg show '+type;if(type==='ok')setTimeout(()=>m.className='msg',3500);}
+  (async()=>{
+    const {data:{session}}=await sb.auth.getSession();
+    if(!session){document.getElementById('gate').innerHTML='Tu dois être connecté. <a href="app.html">Se connecter →</a>';return;}
+    document.getElementById('gate').style.display='none';
+    document.getElementById('app').style.display='block';
+    loadClients();
+  })();
+</script>
+</body>
+</html>  .crit input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--lime);cursor:pointer;border:4px solid #0f1612;}
+  .del-crit{background:none;border:none;color:var(--faint);cursor:pointer;font-size:12px;padding:0 4px;}
+  .del-crit:hover{color:var(--red);}
+  .add-crit{width:100%;background:rgba(255,255,255,.03);border:1px dashed var(--card-bd);color:var(--muted);border-radius:13px;padding:13px;font-family:inherit;font-size:14px;cursor:pointer;transition:.18s;}
+  .add-crit:hover{border-color:var(--lime);color:var(--lime);}
+  textarea{min-height:80px;resize:vertical;}
+  .save{width:100%;background:var(--lime);color:#0f1612;border:none;border-radius:30px;padding:17px;font-family:'Sora';font-weight:700;font-size:16px;cursor:pointer;transition:.18s;}
+  .save:hover{filter:brightness(1.07);transform:translateY(-1px);}
+  .save:disabled{opacity:.5;}
+  .msg{margin-top:14px;padding:12px 15px;border-radius:13px;font-size:13.5px;display:none;}
+  .msg.show{display:block;}
+  .msg.err{background:rgba(255,122,92,.12);color:var(--red);}
+  .msg.ok{background:rgba(52,224,176,.1);color:var(--teal);}
+  .gate{text-align:center;padding:80px 20px;color:var(--muted);}
+  .gate a{color:var(--lime);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
     <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#00e5a0" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="5" r="2.2" fill="#00e5a0" stroke="none"/><path d="M6 11 L18 11 M4 9.5 L4 12.5 M20 9.5 L20 12.5 M12 11 L12 17 M9 21 L12 17 L15 21"/></svg></div><b>Silhouet</b></div>
     <a class="back" href="app.html">← Mes clients</a>
   </div>
