@@ -55,7 +55,7 @@
 <div class="wrap">
   <div class="topbar">
     <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#00e5a0" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="5" r="2.2" fill="#00e5a0" stroke="none"/><path d="M6 11 L18 11 M4 9.5 L4 12.5 M20 9.5 L20 12.5 M12 11 L12 17 M9 21 L12 17 L15 21"/></svg></div><b>Silhouet</b></div>
-    <a class="back" href="index.html">← Mes clients</a>
+    <a class="back" href="app.html">← Mes clients</a>
   </div>
   <div id="gate" class="gate">Vérification…</div>
   <div id="app" style="display:none">
@@ -125,7 +125,7 @@
   function showMsg(t,type){const m=document.getElementById('msg');m.textContent=t;m.className='msg show '+type;if(type==='ok')setTimeout(()=>m.className='msg',3500);}
   (async()=>{
     const {data:{session}}=await sb.auth.getSession();
-    if(!session){document.getElementById('gate').innerHTML='Tu dois être connecté. <a href="index.html">Se connecter →</a>';return;}
+    if(!session){document.getElementById('gate').innerHTML='Tu dois être connecté. <a href="app.html">Se connecter →</a>';return;}
     document.getElementById('gate').style.display='none';
     document.getElementById('app').style.display='block';
     loadClients();
