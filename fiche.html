@@ -269,4 +269,239 @@
   })();
 </script>
 </body>
+</html>  .band .stat .n{font-family:'Sora';font-weight:800;font-size:26px;line-height:1;}
+  .band .stat .n .u{font-size:13px;color:var(--muted);font-weight:600;}
+  .band .stat .l{color:var(--muted);font-size:11px;margin-top:6px;}
+  .band .stat.accent{background:linear-gradient(160deg,rgba(182,255,60,.14),rgba(52,224,176,.05));border-color:rgba(182,255,60,.25);}
+  .band .stat.accent .n{color:var(--lime);}
+  .section-label{display:flex;align-items:center;gap:12px;margin:38px 2px 18px;}
+  .section-label h2{font-family:'Sora';font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;}
+  .section-label .line{flex:1;height:1px;background:linear-gradient(90deg,var(--card-bd),transparent);}
+  .section-label .meta{color:var(--faint);font-size:11px;}
+  .bodycard{position:relative;background:var(--card);border:1px solid var(--card-bd);border-radius:28px;padding:22px 18px;overflow:hidden;}
+  .views{display:flex;justify-content:center;gap:14px;}
+  .view{flex:1;text-align:center;max-width:180px;}
+  .view .vtitle{font-size:10px;color:var(--faint);letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px;}
+  .view svg{width:100%;height:auto;}
+  .region{fill:var(--rest);stroke:var(--rest-bd);stroke-width:1;stroke-linejoin:round;transition:fill .3s,opacity .3s,filter .3s;cursor:pointer;}
+  .region:hover{filter:brightness(1.5);}
+  .region.lit{filter:drop-shadow(0 0 9px currentColor);}
+  .hint{text-align:center;color:var(--faint);font-size:11px;margin-top:16px;}
+  .zlabels{display:flex;flex-direction:column;gap:8px;margin-top:14px;}
+  .zlabel{background:rgba(255,255,255,.03);border:1px solid var(--card-bd);border-radius:14px;padding:11px 14px;cursor:pointer;transition:.2s;}
+  .zlabel:hover,.zlabel.on{border-color:rgba(182,255,60,.4);background:rgba(182,255,60,.06);}
+  .zlabel .zt{display:flex;align-items:center;justify-content:space-between;}
+  .zlabel .nm{font-size:12px;color:var(--ink);font-weight:500;}
+  .zlabel .sc{font-family:'Sora';font-weight:800;font-size:18px;}
+  .zlabel .chip{font-size:9.5px;padding:2px 6px;border-radius:8px;font-weight:600;margin-left:6px;}
+  .zlabel .bar{height:4px;border-radius:4px;background:rgba(255,255,255,.06);margin-top:8px;overflow:hidden;}
+  .zlabel .bar i{display:block;height:100%;border-radius:4px;width:0;transition:width 1s cubic-bezier(.2,.8,.2,1);}
+  .progress{display:flex;flex-direction:column;gap:13px;}
+  .pcard{background:var(--card);border:1px solid var(--card-bd);border-radius:20px;padding:17px 19px;}
+  .pcard .ptop{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px;}
+  .pcard .ptop h4{font-size:14px;font-weight:500;}
+  .pcard .ptop .vnow{font-family:'Sora';font-weight:800;font-size:18px;}
+  .pcard .ptop .vnow .was{color:var(--faint);font-size:11px;font-weight:400;margin-left:5px;}
+  .ptrack{height:9px;border-radius:9px;background:rgba(255,255,255,.05);position:relative;overflow:hidden;}
+  .ptrack .start{position:absolute;top:0;bottom:0;width:2px;background:rgba(255,255,255,.35);z-index:2;}
+  .ptrack .pfill{position:absolute;inset:0 auto 0 0;border-radius:9px;width:0;transition:width 1.2s cubic-bezier(.2,.8,.2,1);background:linear-gradient(90deg,#5a7d1f,var(--lime));}
+  .pfoot{display:flex;justify-content:space-between;margin-top:9px;font-size:11px;color:var(--muted);}
+  .pfoot-up{color:var(--teal);font-weight:600;}
+  .note{margin-top:24px;background:linear-gradient(150deg,rgba(52,224,176,.09),rgba(52,224,176,.02));border:1px solid rgba(52,224,176,.22);border-radius:22px;padding:20px 22px;}
+  .note small{color:var(--teal);font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;}
+  .note p{font-size:15px;margin-top:9px;color:#dcf5ec;line-height:1.55;}
+  .note .sig{margin-top:12px;font-size:12px;color:var(--muted);}
+  .tl{background:var(--card);border:1px solid var(--card-bd);border-radius:20px;padding:8px 20px;}
+  .tlrow{display:flex;gap:15px;padding:15px 0;border-bottom:1px solid rgba(255,255,255,.05);align-items:flex-start;}
+  .tlrow:last-child{border-bottom:none;}
+  .tldot{width:10px;height:10px;border-radius:50%;background:var(--lime);margin-top:5px;flex-shrink:0;box-shadow:0 0 0 5px rgba(182,255,60,.1);}
+  .tlrow.dim .tldot{background:var(--faint);box-shadow:none;}
+  .tlrow .tc b{font-size:14px;font-weight:600;}
+  .tlrow .tc small{display:block;color:var(--muted);font-size:12px;margin-top:2px;}
+  .tlrow .td{margin-left:auto;color:var(--faint);font-size:11px;white-space:nowrap;padding-top:2px;}
+  footer{text-align:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--card-bd);color:var(--faint);font-size:11px;line-height:1.7;}
+  footer .fl{color:var(--lime);font-family:'Sora';font-weight:700;}
+  .rise{opacity:0;transform:translateY(18px);animation:rise .8s cubic-bezier(.2,.8,.2,1) forwards;}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .state{text-align:center;padding:90px 20px;color:var(--muted);}
+  .state .big{font-size:42px;margin-bottom:16px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="state" class="state">Chargement…</div>
+  <div id="content" style="display:none"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL="https://gepplcndfbjohplfdxki.supabase.co";
+  const SUPABASE_KEY="sb_publishable_FVByYoFLUxfiHTZpAtf5dQ_2k56Hf-7";
+  const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+  function esc(s){return (s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+
+  // associe un nom de critère libre -> une zone du corps + couleur
+  function mapZone(name){
+    const n=name.toLowerCase();
+    if(/jambe|quadri|cuisse|squat/.test(n)) return {z:'jambes',c:'#b6ff3c'};
+    if(/tronc|abdo|obliq|pec|gainage|core|ventre|buste/.test(n)) return {z:'tronc',c:'#34e0b0'};
+    if(/dos|dorsau|lombaire|trap/.test(n)) return {z:'dos',c:'#b6ff3c'};
+    if(/bras|biceps|triceps|\u00e9paule|epaule|deltoid/.test(n)) return {z:'bras',c:'#ffc24b'};
+    if(/ischio|fessier|gluteal|hamstring/.test(n)) return {z:'ischios',c:'#34e0b0'};
+    if(/mollet|cardio|endurance|course|run/.test(n)) return {z:'mollets',c:'#b6ff3c'};
+    return {z:'tronc',c:'#34e0b0'};
+  }
+
+  function bodySVG(view){
+    if(view==='face') return `
+      <circle class="region" data-z="energie" cx="50" cy="20" r="13"/>
+      <rect class="region" data-z="bras" x="14" y="44" width="15" height="70" rx="7"/>
+      <rect class="region" data-z="bras" x="71" y="44" width="15" height="70" rx="7"/>
+      <path class="region" data-z="tronc" d="M32 42 L68 42 Q72 44 71 52 L69 116 Q50 124 31 116 L29 52 Q28 44 32 42 Z"/>
+      <path class="region" data-z="jambes" d="M33 120 Q41 124 49 122 L48 180 L36 180 Z"/>
+      <path class="region" data-z="jambes" d="M67 120 Q59 124 51 122 L52 180 L64 180 Z"/>
+      <rect class="region" data-z="mollets" x="36" y="184" width="12" height="56" rx="6"/>
+      <rect class="region" data-z="mollets" x="52" y="184" width="12" height="56" rx="6"/>`;
+    return `
+      <circle class="region" data-z="energie" cx="50" cy="20" r="13"/>
+      <rect class="region" data-z="bras" x="14" y="44" width="15" height="70" rx="7"/>
+      <rect class="region" data-z="bras" x="71" y="44" width="15" height="70" rx="7"/>
+      <path class="region" data-z="dos" d="M32 42 L68 42 Q72 44 71 52 L69 116 Q50 124 31 116 L29 52 Q28 44 32 42 Z"/>
+      <path class="region" data-z="fessiers" d="M31 118 Q50 126 69 118 L67 144 Q50 150 33 144 Z"/>
+      <path class="region" data-z="ischios" d="M34 146 Q42 150 49 148 L48 184 L37 184 Z"/>
+      <path class="region" data-z="ischios" d="M66 146 Q58 150 51 148 L52 184 L63 184 Z"/>
+      <rect class="region" data-z="mollets" x="37" y="188" width="11" height="52" rx="6"/>
+      <rect class="region" data-z="mollets" x="52" y="188" width="11" height="52" rx="6"/>`;
+  }
+
+  (async()=>{
+    const token=new URLSearchParams(location.search).get('c');
+    const state=document.getElementById('state');
+    if(!token){ state.innerHTML='<div class="big">\ud83d\udd17</div>Lien invalide.'; return; }
+
+    const {data,error}=await sb.rpc('get_fiche',{token_param:token});
+    if(error){ state.innerHTML='<div class="big">\u26a0\ufe0f</div>Erreur de chargement.'; return; }
+    if(!data){ state.innerHTML='<div class="big">\ud83d\udd0d</div>Aucune fiche trouv\u00e9e pour ce lien.'; return; }
+
+    const evals=data.evaluations||[];
+    if(!evals.length){
+      state.innerHTML='<div class="big">\u23f3</div>La fiche de '+esc(data.nom)+' sera bient\u00f4t pr\u00eate.<br>Ton coach n\'a pas encore enregistr\u00e9 de s\u00e9ance.';
+      return;
+    }
+
+    const latest=evals[evals.length-1];
+    const first=evals[0];
+    const crit=latest.criteres||{};
+    const critFirst=first.criteres||{};
+
+    const vals=Object.values(crit);
+    const globalNow=Math.round(vals.reduce((a,b)=>a+b,0)/vals.length*10);
+    const firstVals=Object.values(critFirst);
+    const globalFirst=firstVals.length?Math.round(firstVals.reduce((a,b)=>a+b,0)/firstVals.length*10):globalNow;
+    const deltaPts=globalNow-globalFirst;
+    const weeks=Math.max(1,Math.round((new Date(latest.created_at)-new Date(first.created_at))/(7*864e5)));
+
+    // labels (un par critère)
+    const zlabels=Object.entries(crit).map(([name,val])=>{
+      const m=mapZone(name);
+      const was=critFirst[name];
+      const delta=(was!==undefined)?val-was:null;
+      const chipColor=val>=7?'#b6ff3c':(val>=5?'#ffc24b':'#ff7a5c');
+      const chip=(delta!==null&&delta>0)?`<span class="chip" style="background:${chipColor}28;color:${chipColor}">+${delta}</span>`:'';
+      return `<div class="zlabel" data-zone="${m.z}" data-color="${m.c}">
+        <div class="zt"><span class="nm">${esc(name)}</span><span class="sc">${val}${chip}</span></div>
+        <div class="bar"><i style="--w:${val*10}%;background:linear-gradient(90deg,#5a7d1f,${m.c})"></i></div>
+      </div>`;
+    }).join('');
+
+    // progression cards
+    const pcards=Object.entries(crit).map(([name,val])=>{
+      const was=critFirst[name];
+      const wasTxt=(was!==undefined)?`était ${was}`:'';
+      const prog=(was!==undefined&&was>0)?Math.round((val-was)/was*100):null;
+      const progTxt=(prog!==null&&prog>0)?`+${prog} %`:(was!==undefined?'stable':'départ');
+      const startPct=(was!==undefined)?was*10:0;
+      return `<div class="pcard">
+        <div class="ptop"><h4>${esc(name)}</h4><div class="vnow">${val}/10<span class="was">${wasTxt}</span></div></div>
+        <div class="ptrack"><div class="start" style="left:${startPct}%"></div><div class="pfill" style="--w:${val*10}%"></div></div>
+        <div class="pfoot"><span>Départ : ${was!==undefined?was+'/10':'—'}</span><span class="pfoot-up">${progTxt}</span></div>
+      </div>`;
+    }).join('');
+
+    // timeline
+    const tl=evals.slice().reverse().slice(0,5).map((e,i)=>{
+      const d=new Date(e.created_at);
+      const label=i===0?'Dernière séance':d.toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
+      const note=e.note_seance?esc(e.note_seance):'Séance enregistrée';
+      return `<div class="tlrow ${i>1?'dim':''}"><div class="tldot"></div><div class="tc"><b>Séance</b><small>${note}</small></div><div class="td">${label}</div></div>`;
+    }).join('');
+
+    const coachNote=latest.note_seance?`<div class="note rise" style="animation-delay:.3s"><small>Mot de ton coach</small><p>${esc(latest.note_seance)}</p></div>`:'';
+
+    document.getElementById('content').innerHTML=`
+      <header class="rise">
+        <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#00e5a0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19 L12 5 M6 11 L12 5 L18 11"/></svg></div>
+        <div><small>Ton suivi</small><b>Silhouet</b></div></div>
+        <div class="status"><span class="pip"></span>Actif</div>
+      </header>
+      <section class="hero rise" style="animation-delay:.06s">
+        <span class="tag">Bilan · ${evals.length} séance${evals.length>1?'s':''}</span>
+        <h1>${esc(data.nom)}<span class="by">${weeks} semaine${weeks>1?'s':''} de suivi</span></h1>
+      </section>
+      <div class="band rise" style="animation-delay:.12s">
+        <div class="stat accent"><div class="n">${globalNow}<span class="u">/100</span></div><div class="l">Forme générale</div></div>
+        <div class="stat"><div class="n">${deltaPts>=0?'+':''}${deltaPts}<span class="u">pts</span></div><div class="l">depuis le début</div></div>
+        <div class="stat"><div class="n">${weeks}<span class="u">sem.</span></div><div class="l">de suivi</div></div>
+      </div>
+      <div class="section-label rise" style="animation-delay:.18s"><h2>Carte corporelle</h2><div class="line"></div><span class="meta">touche une zone</span></div>
+      <div class="bodycard rise" style="animation-delay:.2s">
+        <div class="views">
+          <div class="view"><div class="vtitle">Face</div><svg viewBox="0 0 100 250" xmlns="http://www.w3.org/2000/svg">${bodySVG('face')}</svg></div>
+          <div class="view"><div class="vtitle">Dos</div><svg viewBox="0 0 100 250" xmlns="http://www.w3.org/2000/svg">${bodySVG('dos')}</svg></div>
+        </div>
+        <p class="hint">Touche un critère — la zone s'allume sur le corps</p>
+        <div class="zlabels">${zlabels}</div>
+      </div>
+      <div class="section-label rise" style="animation-delay:.24s"><h2>Ta progression</h2><div class="line"></div><span class="meta">vs départ</span></div>
+      <div class="progress">${pcards}</div>
+      ${coachNote}
+      <div class="section-label rise" style="animation-delay:.4s"><h2>Historique</h2><div class="line"></div><span class="meta">${evals.length} séances</span></div>
+      <div class="tl rise" style="animation-delay:.42s">${tl}</div>
+      <footer class="rise" style="animation-delay:.48s">Suivi propulsé par <span class="fl">Silhouet</span><br>Mis à jour après chaque séance</footer>`;
+
+    state.style.display='none';
+    document.getElementById('content').style.display='block';
+
+    // interactions corps
+    const regions=document.querySelectorAll('.region'), labels=document.querySelectorAll('.zlabel');
+    function lightZone(z,color){
+      regions.forEach(r=>{
+        const match=r.dataset.z===z;
+        if(match){ r.style.fill=color; r.style.color=color; r.classList.add('lit'); r.style.opacity='1'; }
+        else { r.style.fill=''; r.classList.remove('lit'); r.style.opacity='.22'; }
+      });
+      labels.forEach(l=>l.classList.toggle('on',l.dataset.zone===z));
+    }
+    function resetZones(){regions.forEach(r=>{r.style.fill='';r.classList.remove('lit');r.style.opacity='';});labels.forEach(l=>l.classList.remove('on'));}
+    labels.forEach(l=>{
+      const c=l.dataset.color;
+      l.addEventListener('mouseenter',()=>lightZone(l.dataset.zone,c));
+      l.addEventListener('click',()=>lightZone(l.dataset.zone,c));
+    });
+    regions.forEach(r=>{
+      r.addEventListener('mouseenter',()=>{
+        const lab=[...labels].find(l=>l.dataset.zone===r.dataset.z);
+        lightZone(r.dataset.z, lab?lab.dataset.color:'#b6ff3c');
+      });
+    });
+    document.querySelector('.bodycard').addEventListener('mouseleave',resetZones);
+
+    // animations bars
+    setTimeout(()=>{
+      document.querySelectorAll('.zlabel .bar i').forEach((el,i)=>setTimeout(()=>el.style.width=getComputedStyle(el).getPropertyValue('--w'),i*70));
+      document.querySelectorAll('.pfill').forEach((el,i)=>setTimeout(()=>el.style.width=getComputedStyle(el).getPropertyValue('--w'),100+i*120));
+      if(labels.length){ const f=labels[0]; lightZone(f.dataset.zone,f.dataset.color); }
+    },300);
+  })();
+</script>
+</body>
 </html>
