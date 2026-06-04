@@ -70,6 +70,7 @@
   <div id="gate" class="gate">Vérification…</div>
   <div id="app" style="display:none">
     <div class="pick"><label>Client</label><select id="clientSelect" onchange="onClientChange()"><option>Chargement…</option></select></div>
+    <div class="pick"><label>Nom de la séance <span style="text-transform:none;letter-spacing:0;color:var(--faint)">(optionnel)</span></label><input type="text" id="seanceName" placeholder="Ex : Séance jambes, Bilan mensuel…"></div>
     <div class="panel">
       <h3>Notes de la séance</h3>
       <p class="hint">Glisse chaque critère selon la forme du jour. Tu peux renommer un critère ou en ajouter.</p>
@@ -190,12 +191,14 @@
     const criteres=collectCriteria();
     if(Object.keys(criteres).length===0){showMsg('Ajoute au moins un critère.','err');return;}
     const note=document.getElementById('note').value.trim();
+    const titre=document.getElementById('seanceName').value.trim();
     const btn=document.getElementById('saveBtn');btn.disabled=true;
-    const {error}=await sb.from('evaluations').insert({client_id:clientId,criteres,note_seance:note});
+    const {error}=await sb.from('evaluations').insert({client_id:clientId,criteres,note_seance:note,titre:titre});
     btn.disabled=false;
     if(error){showMsg(error.message,'err');return;}
     showMsg('Séance enregistrée ! La fiche du client est à jour.','ok');
     document.getElementById('note').value='';
+    document.getElementById('seanceName').value='';
   }
   function showMsg(t,type){const m=document.getElementById('msg');m.textContent=t;m.className='msg show '+type;if(type==='ok')setTimeout(()=>m.className='msg',3500);}
   (async()=>{
