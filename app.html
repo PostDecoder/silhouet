@@ -24,9 +24,6 @@
   .auth-wrap{max-width:420px;margin:8vh auto 0;}
   .auth-wrap h1{font-family:'Sora';font-weight:800;font-size:32px;letter-spacing:-.02em;margin-bottom:6px;text-align:center;}
   .auth-wrap .sub{color:var(--muted);font-size:14px;text-align:center;margin-bottom:26px;}
-  .tabs{display:flex;gap:6px;background:rgba(255,255,255,.04);padding:5px;border-radius:30px;margin-bottom:22px;}
-  .tabs button{flex:1;background:none;border:none;color:var(--muted);font-family:inherit;font-size:14px;font-weight:600;padding:10px;border-radius:30px;cursor:pointer;transition:.18s;}
-  .tabs button.active{background:var(--lime);color:#0f1612;}
   label{display:block;font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin:14px 0 7px;font-weight:600;}
   input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--card-bd);border-radius:13px;padding:13px 15px;color:var(--ink);font-family:inherit;font-size:15px;transition:.18s;}
   input:focus{outline:none;border-color:var(--lime);background:rgba(182,255,60,.04);}
@@ -51,15 +48,45 @@
   .client .info{flex:1;}
   .client .info b{font-family:'Sora';font-weight:700;font-size:16px;}
   .client .info small{display:block;color:var(--muted);font-size:12px;margin-top:1px;}
-  .client .actions{display:flex;gap:8px;}
+  .client .actions{display:flex;gap:8px;flex-wrap:wrap;}
   .client .actions button{background:rgba(255,255,255,.05);border:1px solid var(--card-bd);color:var(--ink);padding:9px 14px;border-radius:30px;font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer;transition:.18s;}
   .client .actions button:hover{background:rgba(182,255,60,.1);border-color:var(--lime);color:var(--lime);}
+  .client .actions button.del:hover{background:rgba(255,122,92,.1);border-color:var(--red);color:var(--red);}
   .empty{text-align:center;padding:50px 20px;color:var(--muted);}
   .empty .big{font-size:40px;margin-bottom:14px;}
   .loading{text-align:center;padding:40px;color:var(--muted);font-size:14px;}
+
+  /* Modal confirmation suppression */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);z-index:100;display:none;align-items:center;justify-content:center;padding:20px;}
+  .modal-overlay.show{display:flex;}
+  .modal{background:#161e19;border:1px solid var(--card-bd);border-radius:22px;padding:30px 28px;max-width:380px;width:100%;text-align:center;}
+  .modal .icon{font-size:38px;margin-bottom:14px;}
+  .modal h3{font-family:'Sora';font-weight:800;font-size:20px;margin-bottom:8px;}
+  .modal p{color:var(--muted);font-size:14px;margin-bottom:24px;line-height:1.55;}
+  .modal p b{color:var(--ink);}
+  .modal-btns{display:flex;gap:10px;}
+  .modal-btns button{flex:1;padding:13px;border-radius:30px;font-family:'Sora';font-weight:700;font-size:14px;cursor:pointer;transition:.18s;border:none;}
+  .modal-cancel{background:rgba(255,255,255,.07);color:var(--muted);}
+  .modal-cancel:hover{background:rgba(255,255,255,.12);color:var(--ink);}
+  .modal-confirm{background:var(--red);color:#fff;}
+  .modal-confirm:hover{filter:brightness(1.1);}
 </style>
 </head>
 <body>
+
+<!-- Modal de confirmation suppression -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal">
+    <div class="icon">🗑️</div>
+    <h3>Supprimer ce client ?</h3>
+    <p>Tu es sur le point de supprimer <b id="deleteClientName"></b>.<br>Toutes ses séances seront également supprimées. Cette action est irréversible.</p>
+    <div class="modal-btns">
+      <button class="modal-cancel" onclick="closeDeleteModal()">Annuler</button>
+      <button class="modal-confirm" id="confirmDeleteBtn" onclick="confirmDelete()">Oui, supprimer</button>
+    </div>
+  </div>
+</div>
+
 <div class="wrap">
   <div class="topbar">
     <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#00e5a0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19 L12 5 M6 11 L12 5 L18 11"/></svg></div><b>Silhouet</b></div>
@@ -68,12 +95,15 @@
   <div class="auth-wrap card" id="authBox">
     <h1>Espace coach</h1>
     <p class="sub">Connecte-toi avec les identifiants reçus par mail.</p>
-    <label>Email</label>
-    <input type="email" id="email" placeholder="toncoach@email.com" autocomplete="email">
-    <label>Mot de passe</label>
-    <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
-    <button class="btn" id="authBtn" onclick="doAuth()">Se connecter</button>
-    <div class="msg" id="authMsg"></div>
+    <!-- autocomplete="off" sur le form fictif + champs nommés différemment pour bloquer l'autofill -->
+    <div>
+      <label>Email</label>
+      <input type="email" id="email" name="coach-email" placeholder="toncoach@email.com" autocomplete="username">
+      <label>Mot de passe</label>
+      <input type="password" id="password" name="coach-password" placeholder="••••••••" autocomplete="current-password">
+      <button class="btn" id="authBtn" onclick="doAuth()">Se connecter</button>
+      <div class="msg" id="authMsg"></div>
+    </div>
     <div style="margin-top:26px;padding-top:22px;border-top:1px solid var(--card-bd);text-align:center;">
       <p style="color:var(--muted);font-size:14px;margin-bottom:14px;">Pas encore de compte ?</p>
       <a href="mailto:coaching.infobe@gmail.com?subject=Demande%20d'acc%C3%A8s%20Silhouet&body=Bonjour%2C%0A%0AJe%20suis%20coach%20et%20je%20souhaite%20tester%20Silhouet.%0A%0AMon%20nom%20%3A%20%0AMon%20activit%C3%A9%20(type%20de%20coaching)%20%3A%20%0A%0AMerci%20%21" class="btn" style="display:block;background:transparent;border:1px solid var(--lime);color:var(--lime);text-decoration:none;margin-top:0;">Demander un accès →</a>
@@ -83,20 +113,34 @@
   <div id="dashboard">
     <div class="dash-head"><h2>Tes clients</h2><span id="coachEmail"></span></div>
     <div class="add-row">
-      <input type="text" id="newClientName" placeholder="Nom du nouveau client" onkeydown="if(event.key==='Enter')addClient()">
+      <!-- FIX autocomplete : champ isolé, autocomplete="off", pas de type email -->
+      <input
+        type="text"
+        id="newClientName"
+        name="new-client-name"
+        placeholder="Nom du nouveau client"
+        autocomplete="off"
+        onkeydown="if(event.key==='Enter')addClient()"
+      >
       <button class="btn" onclick="addClient()">+ Ajouter</button>
     </div>
     <div class="msg" id="dashMsg"></div>
     <div class="clients" id="clientsList"><div class="loading">Chargement…</div></div>
   </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const SUPABASE_URL="https://gepplcndfbjohplfdxki.supabase.co";
   const SUPABASE_KEY="sb_publishable_FVByYoFLUxfiHTZpAtf5dQ_2k56Hf-7";
   const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+  let pendingDeleteId=null;
+  let pendingDeleteName=null;
+
   function showMsg(id,text,type){const el=document.getElementById(id);el.textContent=text;el.className='msg show '+type;}
   function hideMsg(id){document.getElementById(id).className='msg';}
+
   async function doAuth(){
     const email=document.getElementById('email').value.trim();
     const password=document.getElementById('password').value;
@@ -114,7 +158,9 @@
       showMsg('authMsg',m,'err');
     }finally{btn.disabled=false;}
   }
+
   async function logout(){await sb.auth.signOut();location.reload();}
+
   async function showDashboard(){
     const {data:{user}}=await sb.auth.getUser();
     if(!user)return;
@@ -124,27 +170,40 @@
     document.getElementById('coachEmail').textContent=user.email;
     loadClients();
   }
+
   async function loadClients(){
     const list=document.getElementById('clientsList');
     list.innerHTML='<div class="loading">Chargement…</div>';
     const {data,error}=await sb.from('clients').select('*').order('created_at',{ascending:false});
     if(error){list.innerHTML='<div class="empty">Erreur de chargement.</div>';return;}
-    if(!data||data.length===0){list.innerHTML='<div class="empty"><div class="big">🧬</div>Aucun client pour l\'instant.<br>Ajoute ton premier client ci-dessus.</div>';return;}
+    if(!data||data.length===0){
+      list.innerHTML='<div class="empty"><div class="big">🧬</div>Aucun client pour l\'instant.<br>Ajoute ton premier client ci-dessus.</div>';
+      return;
+    }
     list.innerHTML=data.map(c=>{
       const initials=c.nom.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
       const link=`${location.origin}${location.pathname.replace('app.html','')}fiche.html?c=${c.lien_token}`;
-      return `<div class="client"><div class="avatar">${initials}</div>
-        <div class="info"><b>${escapeHtml(c.nom)}</b><small>Ajouté le ${new Date(c.created_at).toLocaleDateString('fr-FR')}</small></div>
+      return `<div class="client" id="client-${c.id}">
+        <div class="avatar">${initials}</div>
+        <div class="info">
+          <b>${escapeHtml(c.nom)}</b>
+          <small>Ajouté le ${new Date(c.created_at).toLocaleDateString('fr-FR')}</small>
+        </div>
         <div class="actions">
           <button onclick="location.href='client.html?id=${c.id}'">✏️ Noter</button>
           <button onclick="copyLink('${link}')">📋 Lien</button>
-        </div></div>`;
+          <button class="del" onclick="openDeleteModal('${c.id}','${escapeHtml(c.nom).replace(/'/g,"\\'")}')">🗑️ Supprimer</button>
+        </div>
+      </div>`;
     }).join('');
   }
+
   async function addClient(){
     const input=document.getElementById('newClientName');
     const nom=input.value.trim();
     if(!nom){showMsg('dashMsg','Écris un nom d\'abord.','err');return;}
+    // Vérif que le nom ne ressemble pas à un email (protection anti-autofill)
+    if(nom.includes('@')){showMsg('dashMsg','Le nom du client ne peut pas être une adresse email.','err');input.value='';return;}
     showMsg('dashMsg','Ajout en cours…','ok');
     try{
       const {data:userData,error:userErr}=await sb.auth.getUser();
@@ -159,8 +218,53 @@
       loadClients();
     }catch(e){showMsg('dashMsg','Erreur : '+(e.message||e),'err');}
   }
+
+  // ---- Suppression avec confirmation ----
+  function openDeleteModal(id, nom){
+    pendingDeleteId=id;
+    pendingDeleteName=nom;
+    document.getElementById('deleteClientName').textContent=nom;
+    document.getElementById('deleteModal').classList.add('show');
+  }
+
+  function closeDeleteModal(){
+    pendingDeleteId=null;
+    pendingDeleteName=null;
+    document.getElementById('deleteModal').classList.remove('show');
+  }
+
+  async function confirmDelete(){
+    if(!pendingDeleteId)return;
+    const btn=document.getElementById('confirmDeleteBtn');
+    btn.disabled=true;
+    btn.textContent='Suppression…';
+    try{
+      // Supprime d'abord les évaluations liées
+      await sb.from('evaluations').delete().eq('client_id',pendingDeleteId);
+      // Puis le client
+      const {error}=await sb.from('clients').delete().eq('id',pendingDeleteId);
+      if(error){showMsg('dashMsg','Erreur suppression : '+error.message,'err');return;}
+      showMsg('dashMsg',`"${pendingDeleteName}" supprimé.`,'ok');
+      setTimeout(()=>hideMsg('dashMsg'),3000);
+      loadClients();
+    }catch(e){
+      showMsg('dashMsg','Erreur : '+(e.message||e),'err');
+    }finally{
+      btn.disabled=false;
+      btn.textContent='Oui, supprimer';
+      closeDeleteModal();
+    }
+  }
+
+  // Fermer le modal en cliquant sur l'overlay
+  document.getElementById('deleteModal').addEventListener('click',function(e){
+    if(e.target===this)closeDeleteModal();
+  });
+
   function copyLink(link){navigator.clipboard.writeText(link);showMsg('dashMsg','Lien copié ! Envoie-le à ton client par WhatsApp.','ok');setTimeout(()=>hideMsg('dashMsg'),3000);}
+
   function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+
   (async()=>{const {data:{session}}=await sb.auth.getSession();if(session)showDashboard();})();
 </script>
 </body>
